@@ -1,6 +1,6 @@
 {
   "versionCode": 6968,
   "versionName": "12.9.2",
-  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-src/releases/download/beta-2/UmmahGram-Beta-20260728.1.apk",
+  "apkUrl": "https://raw.githubusercontent.com/renatmag18-debug/ummahgram-releases/main/apks/UmmahGram-12.9.2.apk",
   "changelog": "Обновлены иконки в настройках UmmahGram: «Режим призрака» и «Шпион» теперь используют аккуратные контурные иконки одного размера и стиля вместо разномастных значков."
 }
