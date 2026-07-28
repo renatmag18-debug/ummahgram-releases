@@ -1,6 +1,6 @@
 {
-  "versionCode": 6967,
-  "versionName": "12.9.1",
-  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-releases/releases/download/v12.9.1/UmmahGram-Beta-20260728.6.apk",
-  "changelog": "Обновления по воздуху: приложение само проверяет наличие новой версии, показывает диалог с кнопками «Обновить»/«Напомнить позже», скачивает APK и запускает установку прямо в приложении. Добавлен прогресс-бар загрузки и ручная проверка обновлений в настройках UmmahGram."
+  "versionCode": 6968,
+  "versionName": "12.9.2",
+  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-src/releases/download/beta-2/UmmahGram-Beta-20260728.1.apk",
+  "changelog": "Обновлены иконки в настройках UmmahGram: «Режим призрака» и «Шпион» теперь используют аккуратные контурные иконки одного размера и стиля вместо разномастных значков."
 }
