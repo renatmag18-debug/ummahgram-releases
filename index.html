@@ -1,0 +1,629 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UmmahGram — Telegram, пересобранный для уммы</title>
+<meta name="description" content="UmmahGram: форк Telegram с компасом киблы, временем намаза, Кораном с таджвидом, закятом и режимами приватности." />
+<style>
+  :root {
+    --bg: #0d1917;
+    --bg-elevated: #122320;
+    --bg-card: #16302b;
+    --bg-card-hi: #1b3a33;
+    --ink: #f0e9d8;
+    --ink-muted: #a6b8b0;
+    --ink-faint: #6f8580;
+    --accent-gold: #d3a94e;
+    --accent-gold-hi: #ecc978;
+    --accent-jade: #48ab8c;
+    --accent-jade-soft: rgba(72, 171, 140, 0.16);
+    --line: rgba(240, 233, 216, 0.12);
+    --line-strong: rgba(240, 233, 216, 0.22);
+    --shadow: rgba(0, 0, 0, 0.45);
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --font-body: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f1e4;
+      --bg-elevated: #ffffff;
+      --bg-card: #fffdf7;
+      --bg-card-hi: #fbf3df;
+      --ink: #182422;
+      --ink-muted: #4d5b55;
+      --ink-faint: #7c8983;
+      --accent-gold: #a97c1f;
+      --accent-gold-hi: #8a6316;
+      --accent-jade: #1f7a61;
+      --accent-jade-soft: rgba(31, 122, 97, 0.10);
+      --line: rgba(24, 36, 34, 0.12);
+      --line-strong: rgba(24, 36, 34, 0.22);
+      --shadow: rgba(24, 36, 34, 0.14);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1917;
+    --bg-elevated: #122320;
+    --bg-card: #16302b;
+    --bg-card-hi: #1b3a33;
+    --ink: #f0e9d8;
+    --ink-muted: #a6b8b0;
+    --ink-faint: #6f8580;
+    --accent-gold: #d3a94e;
+    --accent-gold-hi: #ecc978;
+    --accent-jade: #48ab8c;
+    --accent-jade-soft: rgba(72, 171, 140, 0.16);
+    --line: rgba(240, 233, 216, 0.12);
+    --line-strong: rgba(240, 233, 216, 0.22);
+    --shadow: rgba(0, 0, 0, 0.45);
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f1e4;
+    --bg-elevated: #ffffff;
+    --bg-card: #fffdf7;
+    --bg-card-hi: #fbf3df;
+    --ink: #182422;
+    --ink-muted: #4d5b55;
+    --ink-faint: #7c8983;
+    --accent-gold: #a97c1f;
+    --accent-gold-hi: #8a6316;
+    --accent-jade: #1f7a61;
+    --accent-jade-soft: rgba(31, 122, 97, 0.10);
+    --line: rgba(24, 36, 34, 0.12);
+    --line-strong: rgba(24, 36, 34, 0.22);
+    --shadow: rgba(24, 36, 34, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  img, svg { display: block; max-width: 100%; }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- nav ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .brand-mark { width: 26px; height: 26px; }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.92rem;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--ink-muted);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .nav-links a:hover { color: var(--accent-gold); border-color: var(--accent-gold); }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--accent-gold);
+    color: #1b1204;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .nav-toggle { display: none; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    padding: 84px 0 96px;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-jade);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--accent-jade);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.3rem, 4.4vw, 3.6rem);
+    line-height: 1.08;
+    margin: 0 0 22px;
+    text-wrap: balance;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--accent-gold);
+  }
+  .hero-lede {
+    font-size: 1.08rem;
+    color: var(--ink-muted);
+    max-width: 46ch;
+    margin: 0 0 32px;
+  }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.96rem;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--accent-gold); color: #1b1204; }
+  .btn-primary:hover { background: var(--accent-gold-hi); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+  }
+  .btn-ghost:hover { border-color: var(--accent-jade); color: var(--accent-jade); }
+  .hero-fineprint {
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+  }
+
+  /* astrolabe */
+  .astrolabe-holder {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  .astrolabe { width: 100%; height: 100%; }
+  .ring-slow { transform-origin: 32px 32px; animation: spin 90s linear infinite; }
+  .ring-mid { transform-origin: 32px 32px; animation: spin 46s linear infinite reverse; }
+  .needle { transform-origin: 32px 32px; animation: needle-settle 6s ease-in-out infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes needle-settle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ring-slow, .ring-mid, .needle { animation: none; }
+  }
+  .stroke-gold { stroke: var(--accent-gold); }
+  .stroke-jade { stroke: var(--accent-jade); }
+  .fill-gold { fill: var(--accent-gold); }
+  .fill-jade { fill: var(--accent-jade); }
+  .fill-ink { fill: var(--ink); }
+  .fill-none { fill: none; }
+  .stroke-ink-faint { stroke: var(--ink-faint); }
+
+  /* ---------- section headers ---------- */
+  .section { padding: 88px 0; }
+  .section-header { max-width: 62ch; margin-bottom: 52px; }
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    margin: 10px 0 14px;
+    text-wrap: balance;
+  }
+  .section-header p { color: var(--ink-muted); margin: 0; }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0 0;
+    color: var(--accent-gold);
+    opacity: 0.55;
+  }
+
+  /* ---------- feature grid ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    grid-column: span 3;
+  }
+  .card.span-6 { grid-column: span 6; }
+  .card.span-4 { grid-column: span 4; }
+  .card.span-3 { grid-column: span 3; }
+  .card.span-2 { grid-column: span 2; }
+  .card-icon {
+    width: 64px;
+    height: 64px;
+  }
+  .card h3 {
+    font-family: var(--font-display);
+    font-size: 1.28rem;
+    margin: 0;
+  }
+  .card p {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.94rem;
+  }
+  .card-spotlight {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 34px;
+  }
+  .card-spotlight .card-icon { width: 84px; height: 84px; flex-shrink: 0; }
+  .spotlight-body { flex: 1; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .spotlight-body p { max-width: 62ch; }
+  @media (max-width: 640px) {
+    .card-spotlight { flex-direction: column; }
+    .card-spotlight .card-icon { width: 64px; height: 64px; }
+  }
+  .card-tag {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-jade);
+    background: var(--accent-jade-soft);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  /* prayer timeline mini-diagram */
+  .prayer-line {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .prayer-stop { flex: 1; text-align: center; }
+  .prayer-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--accent-gold);
+    margin: 0 auto 8px;
+  }
+  .prayer-stop:nth-child(2) .prayer-dot { background: var(--ink-faint); }
+  .prayer-stop span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--ink-faint);
+  }
+  .prayer-track {
+    position: relative;
+    height: 2px;
+    background: var(--line-strong);
+    margin-bottom: -14px;
+  }
+
+  /* ---------- download ---------- */
+  .download {
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 44px 0 40px;
+  }
+  .step { display: flex; gap: 16px; }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--accent-gold);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .step h4 { margin: 2px 0 6px; font-size: 1rem; }
+  .step p { margin: 0; color: var(--ink-muted); font-size: 0.88rem; }
+  .download-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* ---------- footer ---------- */
+  footer {
+    padding: 48px 0 60px;
+    font-size: 0.86rem;
+    color: var(--ink-faint);
+  }
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+  }
+  .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+  .footer-links a { text-decoration: none; color: var(--ink-muted); }
+  .footer-links a:hover { color: var(--accent-gold); }
+  .footnote { max-width: 52ch; }
+
+  @media (max-width: 880px) {
+    .hero { padding: 56px 0 60px; }
+    .section { padding: 60px 0; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { order: -1; max-width: 260px; margin: 0 auto 12px; }
+    .nav-links { display: none; }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .card, .card.span-4, .card.span-3, .card.span-2 { grid-column: span 2; }
+    .steps { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .wrap { padding: 0 18px; }
+    .grid { grid-template-columns: 1fr; }
+    .card, .card.span-4, .card.span-3, .card.span-2 { grid-column: span 1; }
+    .footer-row { flex-direction: column; }
+  }
+</style>
+
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="fill-gold" d="M20.5 5.2c-6 1.4-9.9 7.4-8.5 13.4 1.2 5.1 5.6 8.6 10.6 8.8-2.2 1.9-5 3-8.1 3-7.2 0-13-5.8-13-13s5.8-13 13-13c2.2 0 4.2.5 6 1.5-2.6 1.9-4.4 4.6-4.4 4.6z"/>
+        <path class="fill-jade" d="M23.2 8.6l1 2.5 2.6.3-2 1.8.6 2.6-2.2-1.4-2.2 1.4.6-2.6-2-1.8 2.6-.3z"/>
+      </svg>
+      UmmahGram
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Возможности</a></li>
+      <li><a href="#quran">Коран</a></li>
+      <li><a href="#download">Установка</a></li>
+    </ul>
+    <a class="nav-cta" href="https://github.com/renatmag18-debug/ummahgram-releases/releases" target="_blank" rel="noopener">Скачать</a>
+  </div>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Telegram · пересобранный для уммы</div>
+        <h1>Пиши в Telegram&nbsp;— и <em>не пропускай намаз</em></h1>
+        <p class="hero-lede">UmmahGram&nbsp;— независимый форк Telegram с открытым кодом. Тот же мессенджер, что и всегда, плюс компас киблы, время намаза, Коран с таджвидом и калькулятор закята прямо внутри приложения.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/renatmag18-debug/ummahgram-releases/releases" target="_blank" rel="noopener">
+            Скачать APK
+          </a>
+          <a class="btn btn-ghost" href="https://t.me/UmmahGram" target="_blank" rel="noopener">Открыть чат в Telegram</a>
+        </div>
+        <div class="hero-fineprint">На базе открытых исходников Telegram · Android · обновляется без Google Play</div>
+      </div>
+      <div class="hero-visual">
+        <div class="astrolabe-holder">
+          <svg class="astrolabe" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <g class="ring-slow">
+              <circle cx="32" cy="32" r="30" class="fill-none stroke-ink-faint" stroke-width="0.6" stroke-dasharray="1 3"/>
+              <circle cx="32" cy="32" r="30" class="fill-none stroke-ink-faint" stroke-width="0.6" transform="rotate(45 32 32)" stroke-dasharray="1 3"/>
+            </g>
+            <g class="ring-mid">
+              <circle cx="32" cy="32" r="23" class="fill-none stroke-jade" stroke-width="0.8"/>
+              <g class="fill-jade">
+                <circle cx="32" cy="9" r="1.4"/>
+                <circle cx="55" cy="32" r="1.4"/>
+                <circle cx="32" cy="55" r="1.4"/>
+                <circle cx="9" cy="32" r="1.4"/>
+              </g>
+            </g>
+            <circle cx="32" cy="32" r="15" class="fill-none stroke-gold" stroke-width="1"/>
+            <g class="needle">
+              <path d="M32 20 L35 32 L32 44 L29 32 Z" class="fill-gold"/>
+              <circle cx="32" cy="32" r="2.2" class="fill-ink"/>
+            </g>
+            <rect x="29.5" y="15.5" width="5" height="5" class="fill-none stroke-gold" stroke-width="1" transform="rotate(45 32 18)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="eyebrow">Что внутри</div>
+        <h2>Пять вещей, которых нет в обычном Telegram</h2>
+        <p>Всё это встроено прямо в приложение — не боты, не отдельные сайты, не сторонние сервисы.</p>
+      </div>
+
+      <div class="grid">
+        <!-- Prayer + Qibla (spotlight) -->
+        <article class="card span-6 card-spotlight">
+          <svg class="card-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="22" r="13" class="fill-none stroke-gold" stroke-width="2"/>
+            <path d="M20 12 L21.6 20 L20 32 L18.4 20 Z" class="fill-gold"/>
+            <rect x="43" y="30" width="10" height="10" class="fill-none stroke-jade" stroke-width="1.6" transform="rotate(45 48 35)"/>
+          </svg>
+          <div class="spotlight-body">
+            <span class="card-tag">Ислам-инструменты</span>
+            <h3>Время намаза и кибла</h3>
+            <p>Время пяти намазов по геолокации (методика Aladhan или локальный расчёт), напоминания точно в срок и стрелка на Каабу — с компасом или на карте.</p>
+            <div>
+              <div class="prayer-track"></div>
+              <div class="prayer-line">
+                <div class="prayer-stop"><div class="prayer-dot"></div><span>ФАДЖР</span></div>
+                <div class="prayer-stop"><div class="prayer-dot"></div><span>ВОСХОД</span></div>
+                <div class="prayer-stop"><div class="prayer-dot"></div><span>ЗУХР</span></div>
+                <div class="prayer-stop"><div class="prayer-dot"></div><span>АСР</span></div>
+                <div class="prayer-stop"><div class="prayer-dot"></div><span>МАГРИБ</span></div>
+                <div class="prayer-stop"><div class="prayer-dot"></div><span>ИША</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Quran spotlight -->
+        <article class="card span-6 card-spotlight" id="quran">
+          <svg class="card-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 16c-5-3-12-3-18 0v30c6-3 13-3 18 0z" class="fill-none stroke-gold" stroke-width="2"/>
+            <path d="M32 16c5-3 12-3 18 0v30c-6-3-13-3-18 0z" class="fill-none stroke-gold" stroke-width="2"/>
+            <path d="M17 24h11 M17 30h9" class="stroke-jade" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M36 24h11 M36 30h8" class="stroke-ink-faint" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M32 16v30" class="stroke-ink-faint" stroke-width="1.2"/>
+          </svg>
+          <div class="spotlight-body">
+            <span class="card-tag">Ислам-инструменты</span>
+            <h3>Коран с таджвидом</h3>
+            <p>Полный текст, подсветка правил таджвида по цветам, шесть каламов на выбор, аудио чтецов с непрерывным воспроизведением и режим страниц мусхафа — как в бумажном экземпляре.</p>
+          </div>
+        </article>
+
+        <!-- Fiqh -->
+        <article class="card span-2">
+          <svg class="card-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 14h32v36H16z" class="fill-none stroke-gold" stroke-width="2"/>
+            <path d="M16 14l6 6v30l-6-6z" class="fill-none stroke-jade" stroke-width="1.6"/>
+            <path d="M23 24h18M23 32h18M23 40h12" class="stroke-ink-faint" stroke-width="1.6"/>
+          </svg>
+          <span class="card-tag">Ислам-инструменты</span>
+          <h3>Фикх</h3>
+          <p>Справочник по ханафитскому и шафиитскому мазхабам — структурированные разделы прямо в приложении.</p>
+        </article>
+
+        <!-- Zakat -->
+        <article class="card span-3">
+          <svg class="card-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 12v10" class="stroke-gold" stroke-width="2"/>
+            <path d="M14 22h36" class="stroke-gold" stroke-width="2"/>
+            <path d="M14 22l-6 12a6 6 0 0012 0z" class="fill-none stroke-jade" stroke-width="1.8"/>
+            <path d="M50 22l-6 12a6 6 0 0012 0z" class="fill-none stroke-jade" stroke-width="1.8"/>
+            <path d="M22 52h20 M32 40v12" class="stroke-ink-faint" stroke-width="1.8"/>
+          </svg>
+          <span class="card-tag">Ислам-инструменты</span>
+          <h3>Калькулятор закята</h3>
+          <p>Ханафитский и шафиитский мазхаб, нисаб по золоту или серебру с курсом ЦБ РФ, отдельно золото и украшения — закят на 2,5% точнее.</p>
+        </article>
+
+        <!-- OTA -->
+        <article class="card span-3">
+          <svg class="card-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="10" width="24" height="44" rx="4" class="fill-none stroke-gold" stroke-width="2"/>
+            <path d="M32 22v14 M26 30l6 6 6-6" class="stroke-jade" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M24 44h16" class="stroke-ink-faint" stroke-width="1.6"/>
+          </svg>
+          <span class="card-tag">Обновления</span>
+          <h3>Само-обновление</h3>
+          <p>Приложение само проверяет новую версию, качает APK и предлагает установить — без Google Play и без ручного поиска файлов.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 1 L17 11 L27 14 L17 17 L14 27 L11 17 L1 14 L11 11 Z" fill="currentColor"/>
+    </svg>
+  </div>
+
+  <section class="section download" id="download">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="eyebrow">Установка</div>
+        <h2>Установи за минуту</h2>
+        <p>Файл APK лежит в открытом релиз-репозитории на GitHub — отдельно от исходного кода, чтобы им было безопасно делиться.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <h4>Скачай APK</h4>
+            <p>Возьми последний релиз со страницы GitHub — ссылка ниже.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <h4>Разреши установку</h4>
+            <p>Android спросит про установку из неизвестных источников — подтверди для этого файла.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div>
+            <h4>Открой и войди</h4>
+            <p>Дальше приложение само предложит обновления, когда выйдет новая версия.</p>
+          </div>
+        </div>
+      </div>
+      <div class="download-actions">
+        <a class="btn btn-primary" href="https://github.com/renatmag18-debug/ummahgram-releases/releases" target="_blank" rel="noopener">Скачать последний релиз</a>
+        <a class="btn btn-ghost" href="https://t.me/Mgzhnv999" target="_blank" rel="noopener">Канал с новостями</a>
+        <a class="btn btn-ghost" href="https://t.me/UmmahGram" target="_blank" rel="noopener">Чат поддержки</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <p class="footnote">UmmahGram — независимый проект с открытым кодом на базе исходников Telegram. Не связан с Telegram FZ-LLC и не является официальным продуктом.</p>
+      <div class="footer-links">
+        <a href="https://t.me/Mgzhnv999" target="_blank" rel="noopener">Канал</a>
+        <a href="https://t.me/UmmahGram" target="_blank" rel="noopener">Чат</a>
+        <a href="https://github.com/renatmag18-debug/ummahgram-releases/releases" target="_blank" rel="noopener">Релизы</a>
+      </div>
+    </div>
+  </div>
+</footer>
