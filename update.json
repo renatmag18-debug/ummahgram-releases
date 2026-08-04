@@ -1,6 +1,6 @@
 {
-  "versionCode": 6969,
-  "versionName": "12.9.3",
-  "apkUrl": "https://raw.githubusercontent.com/renatmag18-debug/ummahgram-releases/main/apks/UmmahGram-12.9.3.apk",
-  "changelog": "Кибла: компас и карта теперь в аккуратных плашках. Увеличен таймаут скачивания обновления (15 → 60 секунд) — раньше он мог обрываться на нестабильной сети. Мазхаб/Шафии/Ханафи фикх: категории (Тахарат, Намаз и т.д.) стали отдельными плашками с переходом на свой экран вместо одной длинной страницы."
+  "versionCode": 6970,
+  "versionName": "12.9.4",
+  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-releases/releases/download/v12.9.4/ummahgram-12.9.4.apk",
+  "changelog": "Коран: убран свайп страниц, устранена задержка при перелистывании"
 }
