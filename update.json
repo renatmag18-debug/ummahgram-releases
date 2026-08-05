@@ -1,6 +1,6 @@
 {
-  "versionCode": 6970,
-  "versionName": "12.9.4",
-  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-releases/releases/download/v12.9.4/UmmahGram-Beta-20260804.1.apk",
-  "changelog": "Коран: убран свайп страниц, устранена задержка при перелистывании"
+  "versionCode": 6971,
+  "versionName": "12.9.5",
+  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-releases/releases/download/v12.9.5/ummahgram-12.9.5.apk",
+  "changelog": "Добавлена офлайн загрузка текста и аудио в разделе Коран"
 }
