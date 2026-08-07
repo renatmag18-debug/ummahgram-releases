@@ -1,6 +1,6 @@
 {
-  "versionCode": 6975,
-  "versionName": "12.9.9",
-  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-releases/releases/download/v12.9.9/UmmahGram-Beta-20260807.1.apk",
-  "changelog": "Исправлена пропадающая кнопка отправки после ответа ИИ; добавлена настройка «сохранять вопрос» в AI-ассистенте; звук уведомлений намаза (азан/стандартный/без звука); кнопки под аватаркой в профиле теперь тоже скругляются по настройке"
+  "versionCode": 6976,
+  "versionName": "12.9.10",
+  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-releases/releases/download/v12.9.10/ummahgram-12.9.10.apk",
+  "changelog": "Перевод сообщений через Gemini/OpenAI (настраивается в AI-ассистенте); ответ нейросети теперь показывается отдельной плашкой с вопросом/ответом и выбором отправить с вопросом или без; раздел «Внешний вид» вынесен отдельным пунктом в настройках"
 }
