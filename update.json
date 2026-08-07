@@ -1,6 +1,6 @@
 {
-  "versionCode": 6972,
-  "versionName": "12.9.6",
-  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-releases/releases/download/v12.9.6/ummahgram-12.9.6.apk",
-  "changelog": "Исправлена оптимизация R8 и оффлайн загрузка"
+  "versionCode": 6974,
+  "versionName": "12.9.8",
+  "apkUrl": "https://github.com/renatmag18-debug/ummahgram-releases/releases/download/v12.9.8/ummahgram-12.9.8.apk",
+  "changelog": "Восход в списке времён намаза; офлайн текст и аудио Корана; ИИ-ассистент в чате (Gemini/OpenAI); настраиваемое скругление плашек в настройках; исправлено сохранение истории в Spy Mode при очистке/удалении чата"
 }
